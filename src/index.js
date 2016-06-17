@@ -1,4 +1,6 @@
-export function timeFromInt(val) {
+'use strict';
+
+const timeFromInt = (val) => {
   if (val < 0) {
     return val;
   }
@@ -22,9 +24,9 @@ export function timeFromInt(val) {
   ret += minutes;
 
   return ret;
-}
+};
 
-export function timeToInt(val)  {
+const timeToInt = (val) => {
   if (val < 0) {
     return val;
   }
@@ -32,4 +34,6 @@ export function timeToInt(val)  {
   const times = val.split(':');
 
   return parseInt(times[0], 10) * 3600 + parseInt(times[1], 10);
-}
+};
+
+module.exports = { timeToInt, timeFromInt };

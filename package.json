@@ -1,8 +1,8 @@
 {
   "name": "time-number",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Small library to convert time string to number and back",
-  "main": "dist/time-number.js",
+  "main": "src/index.js",
   "homepage": "https://github.com/yury-dymov/time-number.git",
   "author": {
     "name": "Yuri Dymov",
@@ -13,18 +13,7 @@
     "url": "https://github.com/yury-dymov/time-number.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && NODE_ENV=production webpack --config webpack.config.prod.js",
-    "clean": "rimraf dist"
-  },
-  "devDependencies": {
-    "babel-core": "^6.9.0",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "eslint-plugin-babel": "^3.2.0",
-    "rimraf": "^2.5.2",
-    "webpack": "^1.13.1"
+    "build": "npm run clean && NODE_ENV=production webpack --config webpack.config.prod.js"
   },
   "license": "MIT"
 }
