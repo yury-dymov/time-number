@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'time-number.js',
-    publicPath: '/'
+    libraryTarget: 'commonjs'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

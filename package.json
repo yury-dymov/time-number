@@ -1,6 +1,6 @@
 {
   "name": "time-number",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Small library to convert time string to number and back",
   "main": "dist/time-number.js",
   "homepage": "https://github.com/yury-dymov/time-number.git",
