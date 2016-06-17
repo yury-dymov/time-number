@@ -1,39 +1,37 @@
 'use strict';
 
-const timeFromInt = (val) => {
-    if (val < 0) {
-      return val;
-    }
+export const timeFromInt = (val) => {
+  if (val < 0) {
+    return val;
+  }
 
-    const hours = parseInt(val / 3600, 10).toString();
-    const minutes = parseInt(val % 3600, 10).toString();
+  const hours = parseInt(val / 3600, 10).toString();
+  const minutes = parseInt(val % 3600, 10).toString();
 
-    let ret = '';
+  let ret = '';
 
-    if (hours.length === 1) {
-      ret += '0';
-    }
+  if (hours.length === 1) {
+    ret += '0';
+  }
 
-    ret += hours;
-    ret += ':';
+  ret += hours;
+  ret += ':';
 
-    if (minutes.length === 1) {
-      ret += '0';
-    }
+  if (minutes.length === 1) {
+    ret += '0';
+  }
 
-    ret += minutes;
+  ret += minutes;
 
-    return ret;
-  };
+  return ret;
+};
   
-const timeToInt = (val) => {
-    if (val < 0) {
-      return val;
-    }
+export const timeToInt = (val) => {
+  if (val < 0) {
+    return val;
+  }
 
-    const times = val.split(':');
+  const times = val.split(':');
 
-    return parseInt(times[0], 10) * 3600 + parseInt(times[1], 10);
-  };
-
-module.exports = { timeFromInt, timeToInt };
+  return parseInt(times[0], 10) * 3600 + parseInt(times[1], 10);
+};
