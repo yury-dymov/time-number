@@ -13,7 +13,7 @@
     "url": "https://github.com/yury-dymov/time-number.git"
   },
   "scripts": {
-    "build": "npm run clean && NODE_ENV=production webpack --config webpack.config.prod.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "MIT"
 }
