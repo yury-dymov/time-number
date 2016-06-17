@@ -3,9 +3,17 @@
   "version": "0.0.1",
   "description": "Small library to convert time string to number and back",
   "main": "index.js",
+  "homepage": "https://github.com/yury-dymov/time-number.git",
+  "author": {
+    "name": "Yuri Dymov",
+    "email": "yuri@dymov.me"
+  },  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yury-dymov/time-number.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Yuri Dymov",
   "license": "MIT"
 }
