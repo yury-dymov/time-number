@@ -1,6 +1,4 @@
-'use strict';
-
-export const timeFromInt = (val) => {
+export function timeFromInt(val) {
   if (val < 0) {
     return val;
   }
@@ -39,8 +37,8 @@ export const timeFromInt = (val) => {
 
   return ret;
 };
-  
-export const timeToInt = (val) => {
+
+export function timeToInt(val) {
   if (val < 0) {
     return val;
   }
