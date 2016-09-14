@@ -7,7 +7,12 @@ Converts time representation from string to number or from number to string.
 
 *Note:* It was extracted from [react-bootstrap-time-picker](https://github.com/yury-dymov/react-bootstrap-time-picker) and has very limited functionality.
 
-## Functions
+# Installation
+```
+npm install time-number
+```
+
+# Functions
 
 ## timeFromInt(timeNumber: number, validate: boolean)
 `validate` is `true` by default. Fill free to disable validations for performance gains if you are *that* sure in your data.
