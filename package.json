@@ -1,7 +1,12 @@
 {
   "name": "time-number",
   "version": "1.0.0",
-  "description": "Small library for converting time representation from string to number and back",
+  "keywords": [
+    "time",
+    "timeFromInt",
+    "timeToInt"
+  ],
+  "description": "Converts time representation from string to number or from number to string",
   "main": "dist/time-number.js",
   "homepage": "https://github.com/yury-dymov/time-number.git",
   "author": {
