@@ -297,9 +297,9 @@ describe('timeToInt: invalid cases', () => {
     try {
       timeToInt(function() { return ''; });
     } catch (ex){
-      error = ex.message;
+      error = ex.message.replace("''; }", "'';}");
     }
-    expect(error).toBe("time-number, timeToInt(): supported formats are 'HH', 'HH:mm', 'HH:mm:ss', provided value: 'function () { return ''; }' doesn't match any of them");
+    expect(error).toBe("time-number, timeToInt(): supported formats are 'HH', 'HH:mm', 'HH:mm:ss', provided value: 'function () { return '';}' doesn't match any of them");
   });
 });
 
@@ -398,8 +398,8 @@ describe('timeFromInt: invalid cases', () => {
     try {
       timeFromInt(function() { return ''; });
     } catch (ex){
-      error = ex.message;
+      error = ex.message.replace("''; }", "'';}");
     }
-    expect(error).toBe("time-number, timeFromInt(): invalud value: 'function () { return ''; }', supposed to be number");
+    expect(error).toBe("time-number, timeFromInt(): invalud value: 'function () { return '';}', supposed to be number");
   });
 });
