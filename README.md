@@ -17,7 +17,7 @@ npm install time-number
 ## timeFromInt(timeNumber: number, options: { validate: boolean, format: 12|24, leadingZero: boolean })
 Converts number of seconds to the time string
 
-| Option | Default Value | Description |
+| Option | Default | Description |
 |:--------|:---------------:|:-------------|
 | validate | true | By default validates provided input. You may disable it to get a better performance if you don't expect wrong input |
 | format | 24 | Define 12 or 24 hour format |
