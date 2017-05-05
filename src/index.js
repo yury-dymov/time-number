@@ -15,35 +15,57 @@ function leftPadding(value, len = 2) {
   return `${l}${sValue}`;
 }
 
-function internalTimeFromInt(val, isValidationEnabled) {
+
+function internalTimeFromInt(val, { validate, format, leadingZero }) {
   const value = parseInt(val, 10);
 
-  if (isValidationEnabled && (value < 0 || value >= 24 * 3600)) {
+  if (validate && (value < 0 || value >= 24 * 3600)) {
     throw new RangeError('time-number, timeFromInt(): rangeError, value supposed to be between 0 and 86399');
   }
 
-  const hours = Math.floor(value / 3600);
+  let hours = Math.floor(value / 3600);
   const minutes = Math.floor((value - (hours * 3600)) / 60);
-  const seconds = value - (hours * 3600) - (minutes * 60);
+  const seconds = value - (hours * 3600) - (minutes * 60);  
+  let ampm = null;
+  
+  if (format === 12 || format === '12') {
+    ampm = hours < 12 ? 'AM' : 'PM';
 
-  const ret = [leftPadding(hours), leftPadding(minutes)];
+    if (hours === 0) {
+      hours = 12;      
+    } else if (hours > 12) {
+      hours -= 12;
+    }
+  }
+
+  const ret = [leadingZero ? leftPadding(hours) : hours, leftPadding(minutes)];
 
   if (seconds) {
     ret.push(leftPadding(seconds));
   }
 
-  return ret.join(':');
+  const timeString = ret.join(':');
+
+  if (ampm) {
+    return `${timeString} ${ampm}`;
+  }
+
+  return timeString;
 }
 
 
-export function timeFromInt(val, isValidationEnabled = true) {
-  if (!isValidationEnabled) {
-    return internalTimeFromInt(val, isValidationEnabled);
+export function timeFromInt(val, providedParams = {}) {
+  const defaults = { validate: true, format: 24, leadingZero: true };
+  const params = Object.assign({}, defaults, providedParams);
+  const { validate } = params;
+
+  if (!validate) {
+    return internalTimeFromInt(val, params);
   }
 
   try {
     if (((val - parseFloat(val, 10)) + 1) >= 0) {
-      return internalTimeFromInt(val, isValidationEnabled);
+      return internalTimeFromInt(val, params);
     }
 
     throw new Error();
@@ -56,7 +78,7 @@ export function timeFromInt(val, isValidationEnabled = true) {
   }
 }
 
-function internalTimeToInt(val, isValidationEnabled) {
+function internalTimeToInt(val, { validate }) {
   const times = val.split(':');
   const len = times.length;
 
@@ -66,7 +88,7 @@ function internalTimeToInt(val, isValidationEnabled) {
 
   const iTimes = times.map(i => parseInt(i, 10));
 
-  if (isValidationEnabled) {
+  if (validate) {
     const hours = iTimes[0];
 
     if (hours < 0 || hours > 23) {
@@ -93,22 +115,50 @@ function internalTimeToInt(val, isValidationEnabled) {
   return (iTimes[0] * 3600) + (iTimes[1] * 60) + iTimes[2];
 }
 
-export function timeToInt(val, isValidationEnabled = true) {
-  if (!isValidationEnabled) {
-    return internalTimeToInt(val, isValidationEnabled);
+function internal12To24(val) {
+  if (!val || !val.match) {
+    return val;
+  }
+
+  if (!val.match(/(am|pm)$/i)) {
+    return val;
+  }
+
+  if (val.match(/^0+:/)) {
+    throw new Error('12h format can\'t have 00:30 AM, it should be 12:30 AM instead');
+  }  
+
+  if (val.match(/am$/i)) {
+    return val.replace(/^(\d+)/, m => m === '12' ? '0' : m).replace(/\s*am$/i, '');
+  }
+
+  return val.replace(/^(\d+)/, m => m === '12' ? m : (parseInt(m, 10) + 12).toString()).replace(/\s*pm$/i, '');
+}
+
+export function timeToInt(value, providedParams = {}) {  
+  const defaults = { validate: true };
+  const params = Object.assign({}, defaults, providedParams);
+  const { validate } = params;
+
+  if (!validate) {
+    const val = internal12To24(value);
+
+    return internalTimeToInt(val, params);
   }
 
   try {
+    const val = internal12To24(value);
+
     if (!val.match(/^\d+(:\d+(:\d+)?)?$/)) {
       throw new Error();
     }
 
-    return internalTimeToInt(val, isValidationEnabled);
+    return internalTimeToInt(val, params);
   } catch (ex) {
     if (isOwnException(ex)) {
       throw ex;
     }
 
-    throw new Error(`time-number, timeToInt(): supported formats are 'HH', 'HH:mm', 'HH:mm:ss', provided value: '${val}' doesn't match any of them`);
+    throw new Error(`time-number, timeToInt(): supported formats are 'HH', 'HH:mm', 'HH:mm:ss', provided value: '${value}' doesn't match any of them`);
   }
 }

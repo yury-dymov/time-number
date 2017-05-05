@@ -25,83 +25,124 @@ describe('timeToInt: normal cases, validate: true', () => {
   test('18:05:30 -> 18 * 3600 + 5 * 60 + 30', () => {
     expect(timeToInt('18:05:30')).toBe(18 * 3600 + 5 * 60 + 30);
   });
+
+  test('11:30 AM -> 11 * 3600 + 30 * 60', () => {
+    expect(timeToInt('11:30 AM')).toBe(11 * 3600 + 30 * 60);
+  });
+
+  test('11:30 PM -> 23 * 3600 + 30 * 60', () => {
+    expect(timeToInt('11:30 PM')).toBe(23 * 3600 + 30 * 60);
+  });
+
+  test('12:30 AM -> 30 * 60', () => {
+    expect(timeToInt('12:30 AM')).toBe(30 * 60);
+  });    
 });
 
 describe('timeToInt: normal cases, validate: false', () => {
   test('10 -> 10 * 3600', () => {
-    expect(timeToInt('10', false)).toBe(10 * 3600);
+    expect(timeToInt('10', { validate: false })).toBe(10 * 3600);
   });
 
   test('10:05 -> 10 * 3600 + 5 * 60', () => {
-    expect(timeToInt('10:05', false)).toBe(10 * 3600 + 5 * 60);
+    expect(timeToInt('10:05', { validate: false })).toBe(10 * 3600 + 5 * 60);
   });
 
   test('10:05:30 -> 10 * 3600 + 5 * 60 + 30', () => {
-    expect(timeToInt('10:05:30', false)).toBe(10 * 3600 + 5 * 60 + 30);
+    expect(timeToInt('10:05:30', { validate: false })).toBe(10 * 3600 + 5 * 60 + 30);
   });
 
   test('18 -> 18 * 3600', () => {
-    expect(timeToInt('18', false)).toBe(18 * 3600);
+    expect(timeToInt('18', { validate: false })).toBe(18 * 3600);
   });
 
   test('18:05 -> 18 * 3600 + 5 * 60', () => {
-    expect(timeToInt('18:05', false)).toBe(18 * 3600 + 5 * 60);
+    expect(timeToInt('18:05', { validate: false })).toBe(18 * 3600 + 5 * 60);
   });
 
   test('18:05:30 -> 18 * 3600 + 5 * 60 + 30', () => {
-    expect(timeToInt('18:05:30', false)).toBe(18 * 3600 + 5 * 60 + 30);
+    expect(timeToInt('18:05:30', { validate: false })).toBe(18 * 3600 + 5 * 60 + 30);
   });
+
+  test('11:30 AM -> 11 * 3600 + 30 * 60', () => {
+    expect(timeToInt('11:30 AM', { validate: false })).toBe(11 * 3600 + 30 * 60);
+  });
+
+  test('11:30 PM -> 23 * 3600 + 30 * 60', () => {
+    expect(timeToInt('11:30 PM', { validate: false })).toBe(23 * 3600 + 30 * 60);
+  });
+
+  test('12:30 AM -> 30 * 60', () => {
+    expect(timeToInt('12:30 AM', { validate: false })).toBe(30 * 60);
+  });  
 });
 
 
 describe('timeFromInt: normal cases, validate: true', () => {
   test('10 * 3600 + 5 * 60 -> 10:05', () => {
+    expect(timeFromInt(10 * 3600 + 5 * 60, { format: 12 })).toBe('10:05 AM');
     expect(timeFromInt(10 * 3600 + 5 * 60)).toBe('10:05');
   });
 
   test('10 * 3600 + 5 * 60 + 30 -> 10:05:30', () => {
     expect(timeFromInt(10 * 3600 + 5 * 60 + 30)).toBe('10:05:30');
+    expect(timeFromInt(10 * 3600 + 5 * 60 + 30, { format: 12 })).toBe('10:05:30 AM');
   });
 
   test('18:05 -> 18 * 3600 + 5 * 60', () => {
     expect(timeFromInt(18 * 3600 + 5 * 60)).toBe('18:05');
+    expect(timeFromInt(18 * 3600 + 5 * 60, { format: 12, leadingZero: false })).toBe('6:05 PM');
+    expect(timeFromInt(18 * 3600 + 5 * 60, { format: 12, leadingZero: true })).toBe('06:05 PM');
   });
 
   test('18 * 3600 + 5 * 60 + 30 -> 18:05:30', () => {
     expect(timeFromInt(18 * 3600 + 5 * 60 + 30)).toBe('18:05:30');
+    expect(timeFromInt(18 * 3600 + 5 * 60 + 30, { format: 12, leadingZero: false })).toBe('6:05:30 PM');
+    expect(timeFromInt(18 * 3600 + 5 * 60 + 30, { format: 12, leadingZero: true })).toBe('06:05:30 PM');
   });
 });
 
 describe('timeFromInt: normal cases, validate: false', () => {
   test('10 * 3600 + 5 * 60 -> 10:05', () => {
-    expect(timeFromInt(10 * 3600 + 5 * 60, false)).toBe('10:05');
+    expect(timeFromInt(10 * 3600 + 5 * 60, { validate: false })).toBe('10:05');
   });
 
   test('10 * 3600 + 5 * 60 + 30 -> 10:05:30', () => {
-    expect(timeFromInt(10 * 3600 + 5 * 60 + 30, false)).toBe('10:05:30');
+    expect(timeFromInt(10 * 3600 + 5 * 60 + 30, { validate: false })).toBe('10:05:30');
   });
 
   test('18:05 -> 18 * 3600 + 5 * 60', () => {
-    expect(timeFromInt(18 * 3600 + 5 * 60, false)).toBe('18:05');
+    expect(timeFromInt(18 * 3600 + 5 * 60, { validate: false })).toBe('18:05');
   });
 
   test('18 * 3600 + 5 * 60 + 30 -> 18:05:30', () => {
-    expect(timeFromInt(18 * 3600 + 5 * 60 + 30, false)).toBe('18:05:30');
+    expect(timeFromInt(18 * 3600 + 5 * 60 + 30, { validate: false })).toBe('18:05:30');
   });
 });
 
 
 describe('timeToInt: invalid cases', () => {
-  test('11:30 PM', () => {
-    var error = '';
+  test('00:30 AM', () => {
+    var error = null;
 
     try {
-      timeToInt('11:30 PM');
+      timeToInt('00:30 AM');
     } catch (ex){
       error = ex.message;
     }
-    expect(error).toBe("time-number, timeToInt(): supported formats are 'HH', 'HH:mm', 'HH:mm:ss', provided value: '11:30 PM' doesn't match any of them");
+    expect(error).not.toBeNull();
   });
+
+  test('13:30 PM', () => {
+    var error = null;
+
+    try {
+      timeToInt('13:30 PM');
+    } catch (ex){
+      error = ex.message;
+    }
+    expect(error).not.toBeNull();
+  });  
 
   test('24', () => {
     var error = '';
