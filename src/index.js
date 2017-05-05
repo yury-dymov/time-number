@@ -25,14 +25,14 @@ function internalTimeFromInt(val, { validate, format, leadingZero }) {
 
   let hours = Math.floor(value / 3600);
   const minutes = Math.floor((value - (hours * 3600)) / 60);
-  const seconds = value - (hours * 3600) - (minutes * 60);  
+  const seconds = value - (hours * 3600) - (minutes * 60);
   let ampm = null;
-  
+
   if (format === 12 || format === '12') {
     ampm = hours < 12 ? 'AM' : 'PM';
 
     if (hours === 0) {
-      hours = 12;      
+      hours = 12;
     } else if (hours > 12) {
       hours -= 12;
     }
@@ -53,10 +53,17 @@ function internalTimeFromInt(val, { validate, format, leadingZero }) {
   return timeString;
 }
 
+function compatv1(params) {
+  if (typeof params === 'boolean') {
+    return { validate: params };
+  }
+
+  return params;
+}
 
 export function timeFromInt(val, providedParams = {}) {
   const defaults = { validate: true, format: 24, leadingZero: true };
-  const params = Object.assign({}, defaults, providedParams);
+  const params = Object.assign({}, defaults, compatv1(providedParams));
   const { validate } = params;
 
   if (!validate) {
@@ -126,7 +133,7 @@ function internal12To24(val) {
 
   if (val.match(/^0+:/)) {
     throw new Error('12h format can\'t have 00:30 AM, it should be 12:30 AM instead');
-  }  
+  }
 
   if (val.match(/am$/i)) {
     return val.replace(/^(\d+)/, m => m === '12' ? '0' : m).replace(/\s*am$/i, '');
@@ -135,9 +142,9 @@ function internal12To24(val) {
   return val.replace(/^(\d+)/, m => m === '12' ? m : (parseInt(m, 10) + 12).toString()).replace(/\s*pm$/i, '');
 }
 
-export function timeToInt(value, providedParams = {}) {  
+export function timeToInt(value, providedParams = {}) {
   const defaults = { validate: true };
-  const params = Object.assign({}, defaults, providedParams);
+  const params = Object.assign({}, defaults, compatv1(providedParams));
   const { validate } = params;
 
   if (!validate) {

@@ -444,3 +444,20 @@ describe('timeFromInt: invalid cases', () => {
     expect(error).toBe("time-number, timeFromInt(): invalud value: 'function () {return '';}', supposed to be number");
   });
 });
+
+describe('backward compatibility with v1.0', () => {
+  test('00:30 AM', () => {
+    var error = null;
+
+    try {
+      timeToInt('00:30 AM', true);
+    } catch (ex){
+      error = ex.message;
+    }
+    expect(error).not.toBeNull();
+  });
+  
+  test('10 -> 10 * 3600', () => {
+    expect(timeToInt('30', false)).toBe(30 * 3600);
+  });  
+});
