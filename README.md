@@ -18,7 +18,7 @@ npm install time-number
 Converts number of seconds to the time string
 
 | Option | Default Value | Description |
-----------------------------------------
+|:--------|:---------------:|:-------------|
 | validate | true | By default validates provided input. You may disable it to get a better performance if you don't expect wrong input |
 | format | 24 | Define 12 or 24 hour format |
 | leadingZero | true | Controls hour leading zero |
